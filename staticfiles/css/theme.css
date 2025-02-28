@@ -1,0 +1,28 @@
+:root {
+    --primary: #2A6B9A;
+    --secondary: #FF7F50;
+    --light: #F8F9FA;
+    --dark: #2C3E50;
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --text-base: 1rem;
+    --text-lg: 1.25rem;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --radius: 8px;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background: var(--light);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}

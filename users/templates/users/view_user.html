@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>User Details</h2>
+        <table class="table">
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Is Professional</th>
+                <td>{{ user.is_professional }}</td>
+            </tr>
+            <tr>
+                <th>Is Patient</th>
+                <td>{{ user.is_patient }}</td>
+            </tr>
+        </table>
+        <a href="{% url 'manage_users' %}" class="btn btn-secondary">Back to User List</a>
+        <a href="{% url 'edit_user' user.id %}" class="btn btn-warning">Edit User</a>
+        <a href="{% url 'delete_user' user.id %}" class="btn btn-danger">Delete User</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord du Chercheur</title>
+    <link rel="stylesheet" href="{% static 'css/researcher_dashboard.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Tableau de Bord du Chercheur</h1>
+        <p>Bienvenue sur votre tableau de bord. Vous pouvez accéder aux dossiers médicaux ici.</p>
+        <a href="{% url 'view_patient_records' %}" class="btn btn-primary">Accéder aux dossiers médicaux</a>
+    </div>
+</body>
+</html>

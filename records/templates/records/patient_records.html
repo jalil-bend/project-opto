@@ -1,0 +1,279 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="patient-records">
+        <h2 class="text-center mb-5">Mon Historique Médical</h2>
+
+        {% if records %}
+        <div class="timeline">
+            {% for record in records %}
+            <div class="timeline-item">
+                <div class="timeline-date">
+                    <span class="date">{{ record.created_at|date:"d" }}</span>
+                    <span class="month">{{ record.created_at|date:"M Y" }}</span>
+                </div>
+                <div class="timeline-content">
+                    <div class="record-card">
+                        <div class="doctor-info">
+                            <i class="fas fa-user-md"></i>
+                            Dr. {{ record.created_by.user.username }}
+                        </div>
+
+                        {% if record.description %}
+                        <div class="description">
+                            {{ record.description }}
+                        </div>
+                        {% endif %}
+
+                        <div class="images-section">
+                            {% for image in record.images.all %}
+                                {% if image.category == 'topographie' and forloop.first %}
+                                <div class="image-category">
+                                    <h6><i class="fas fa-eye"></i> Topographie</h6>
+                                    <div class="image-slider">
+                                {% endif %}
+                                
+                                {% if image.category == 'topographie' %}
+                                    <a href="{{ image.image.url }}" class="image-item" target="_blank">
+                                        <img src="{{ image.image.url }}" alt="Topographie">
+                                    </a>
+                                {% endif %}
+                                
+                                {% if image.category == 'topographie' and forloop.last %}
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                {% if image.category == 'oct' and forloop.first %}
+                                <div class="image-category">
+                                    <h6><i class="fas fa-microscope"></i> OCT</h6>
+                                    <div class="image-slider">
+                                {% endif %}
+                                
+                                {% if image.category == 'oct' %}
+                                    <a href="{{ image.image.url }}" class="image-item" target="_blank">
+                                        <img src="{{ image.image.url }}" alt="OCT">
+                                    </a>
+                                {% endif %}
+                                
+                                {% if image.category == 'oct' and forloop.last %}
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                {% if image.category == 'lampe_a_fente' and forloop.first %}
+                                <div class="image-category">
+                                    <h6><i class="fas fa-lightbulb"></i> Lampe à fente</h6>
+                                    <div class="image-slider">
+                                {% endif %}
+                                
+                                {% if image.category == 'lampe_a_fente' %}
+                                    <a href="{{ image.image.url }}" class="image-item" target="_blank">
+                                        <img src="{{ image.image.url }}" alt="Lampe à fente">
+                                    </a>
+                                {% endif %}
+                                
+                                {% if image.category == 'lampe_a_fente' and forloop.last %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        {% if record.file %}
+                        <div class="document-section">
+                            <a href="{{ record.file.url }}" class="btn btn-light" target="_blank">
+                                <i class="fas fa-file-medical"></i>
+                                Voir le compte rendu complet
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center mt-5">
+            <div class="empty-state">
+                <i class="fas fa-folder-open fa-3x mb-3"></i>
+                <h3>Aucun dossier médical</h3>
+                <p>Vous n'avez pas encore de dossier médical dans notre système.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.patient-records {
+    padding: 2rem 0;
+}
+
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background: #e9ecef;
+    top: 0;
+    bottom: 0;
+    left: 50px;
+    margin-left: -1px;
+}
+
+.timeline-item {
+    padding-left: 70px;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline-date {
+    position: absolute;
+    left: 0;
+    width: 50px;
+    text-align: center;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.timeline-date .date {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    display: block;
+    line-height: 1;
+}
+
+.timeline-date .month {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-transform: uppercase;
+}
+
+.timeline-content {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.record-card {
+    position: relative;
+}
+
+.doctor-info {
+    color: #6c757d;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.doctor-info i {
+    margin-right: 0.5rem;
+    color: #007bff;
+}
+
+.description {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.image-category {
+    margin-bottom: 1.5rem;
+}
+
+.image-category h6 {
+    color: #495057;
+    margin-bottom: 1rem;
+}
+
+.image-category i {
+    margin-right: 0.5rem;
+    color: #007bff;
+}
+
+.image-slider {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #f8f9fa;
+}
+
+.image-slider::-webkit-scrollbar {
+    height: 6px;
+}
+
+.image-slider::-webkit-scrollbar-track {
+    background: #f8f9fa;
+    border-radius: 3px;
+}
+
+.image-slider::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 3px;
+}
+
+.image-item {
+    flex: 0 0 auto;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.image-item:hover {
+    transform: scale(1.05);
+}
+
+.image-item img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.document-section {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.document-section .btn {
+    border: 1px solid #dee2e6;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.document-section .btn i {
+    margin-right: 0.5rem;
+}
+
+.empty-state {
+    color: #6c757d;
+    padding: 3rem;
+}
+
+.empty-state i {
+    color: #dee2e6;
+}
+
+.empty-state h3 {
+    margin: 1rem 0;
+    color: #495057;
+}
+
+.empty-state p {
+    color: #6c757d;
+}
+</style>
+{% endblock %}

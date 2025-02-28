@@ -1,0 +1,39 @@
+.testimonials {
+    padding: 4rem 0;
+    background: #f8f9fa;
+}
+
+.testimonial-container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.testimonial-slide {
+    text-align: center;
+    padding: 2rem;
+    display: none;
+}
+
+.testimonial-slide.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+blockquote {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: #444;
+}
+
+cite {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+    color: #007bff;
+}

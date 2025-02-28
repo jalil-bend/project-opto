@@ -1,0 +1,152 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_professional %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Dossiers médicaux de {{ patient.user.username }}</h2>
+        <a href="{% url 'upload_record_for_patient' patient.id %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Ajouter un dossier
+        </a>
+        <a href="{% url 'create_prescription' patient.id %}" class="btn btn-primary ms-2">Créer une ordonnance</a>
+    </div>
+    {% else %}
+    <h2 class="mb-4">Mes dossiers médicaux</h2>
+    {% endif %}
+
+    {% if records %}
+    <div class="row">
+        {% for record in records %}
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h5 class="card-title">Dossier du {{ record.created_at|date:"d/m/Y" }}</h5>
+                        {% if user.is_professional %}
+                        <span class="badge bg-primary">Dr. {{ record.created_by.user.username }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if record.description %}
+                    <p class="card-text">{{ record.description }}</p>
+                    {% endif %}
+
+                    {% for image in record.images.all %}
+                        {% if image.category == 'topographie' and forloop.first %}
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-3">Topographie</h6>
+                            <div class="image-gallery">
+                        {% endif %}
+                        
+                        {% if image.category == 'topographie' %}
+                            <a href="{{ image.image.url }}" target="_blank" class="image-link">
+                                <img src="{{ image.image.url }}" class="thumbnail" alt="Topographie">
+                            </a>
+                        {% endif %}
+                        
+                        {% if image.category == 'topographie' and forloop.last %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if image.category == 'oct' and forloop.first %}
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-3">OCT</h6>
+                            <div class="image-gallery">
+                        {% endif %}
+                        
+                        {% if image.category == 'oct' %}
+                            <a href="{{ image.image.url }}" target="_blank" class="image-link">
+                                <img src="{{ image.image.url }}" class="thumbnail" alt="OCT">
+                            </a>
+                        {% endif %}
+                        
+                        {% if image.category == 'oct' and forloop.last %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if image.category == 'lampe_a_fente' and forloop.first %}
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-3">Lampe à fente</h6>
+                            <div class="image-gallery">
+                        {% endif %}
+                        
+                        {% if image.category == 'lampe_a_fente' %}
+                            <a href="{{ image.image.url }}" target="_blank" class="image-link">
+                                <img src="{{ image.image.url }}" class="thumbnail" alt="Lampe à fente">
+                            </a>
+                        {% endif %}
+                        
+                        {% if image.category == 'lampe_a_fente' and forloop.last %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if record.file %}
+                    <div class="mt-4">
+                        <a href="{{ record.file.url }}" class="btn btn-outline-primary" target="_blank">
+                            <i class="fas fa-file-medical"></i> Voir le document complet
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if user.is_professional %}
+                    <div class="text-muted mt-3">
+                        <small><i class="fas fa-clock"></i> Ajouté le {{ record.created_at|date:"d/m/Y à H:i" }}</small>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        {% if user.is_professional %}
+        <i class="fas fa-info-circle"></i> Aucun dossier médical disponible pour ce patient.
+        {% else %}
+        <i class="fas fa-info-circle"></i> Vous n'avez pas encore de dossier médical.
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+}
+.image-link {
+    text-decoration: none;
+    transition: transform 0.2s;
+    display: block;
+}
+.image-link:hover {
+    transform: scale(1.05);
+}
+.thumbnail {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.card {
+    border: none;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    border-radius: 12px;
+}
+.card-body {
+    padding: 1.5rem;
+}
+.badge {
+    padding: 0.5em 1em;
+    font-weight: 500;
+}
+</style>
+{% endblock %}

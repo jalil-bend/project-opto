@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/hero.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/services.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/testimonials.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>OPTO DZ</title>
+    <script src="{% static 'js/carousel.js' %}" defer></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+    <header class="bg-light p-3">
+        <a href="#" class="logo h1">OPTO DZ</a>
+        <nav class="navigation">
+            <a href="#" class="btn btn-link">Accueil</a>
+            <a href="#services" class="btn btn-link">Services</a>
+            <a href="#tutoriel" class="btn btn-link">Tutoriels</a>
+            <a href="#contact" class="btn btn-link">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero bg-primary text-white text-center py-5">
+        <div class="container">
+            <h1 class="display-4">Bienvenue chez OPTO DZ</h1>
+            <p class="lead">Votre vision, notre priorité</p>
+            <a href="{% url 'login' %}" class="btn btn-light btn-lg">Se connecter</a>
+        </div>
+    </section>
+
+    <section class="features py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Nos Services Experts</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body text-center">
+                            <i class="fas fa-eye fa-3x mb-3"></i>
+                            <h3 class="card-title">Examens de Précision</h3>
+                            <p class="card-text">Technologie de pointe pour des résultats fiables</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body text-center">
+                            <i class="fas fa-glasses fa-3x mb-3"></i>
+                            <h3 class="card-title">Lunettes sur Mesure</h3>
+                            <p class="card-text">Conception personnalisée selon votre morphologie</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body text-center">
+                            <i class="fas fa-lens fa-3x mb-3"></i>
+                            <h3 class="card-title">Lentilles Innovantes</h3>
+                            <p class="card-text">Technologies dernier cri pour un confort optimal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="section-title">Nos Services Experts</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <div class="service-image" style="background-image: url('{% static 'images/service1.jpg' %}')"></div>
+                <h3>Lunettes sur Mesure</h3>
+                <p>Conception personnalisée selon votre morphologie</p>
+            </div>
+            <div class="service-card">
+                <div class="service-image" style="background-image: url('{% static 'images/service2.jpg' %}')"></div>
+                <h3>Lentilles Innovantes</h3>
+                <p>Technologies dernier cri pour un confort optimal</p>
+            </div>
+            <div class="service-card">
+                <div class="service-image" style="background-image: url('{% static 'images/service3.jpg' %}')"></div>
+                <h3>Suivi Personnalisé</h3>
+                <p>Accompagnement sur mesure à chaque étape</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="testimonial-container">
+            <div class="testimonial-slide active">
+                <blockquote>
+                    "Un service exceptionnel et des équipements high-tech"
+                </blockquote>
+                <cite>- Sarah D., Patient</cite>
+            </div>
+            <div class="testimonial-slide">
+                <blockquote>
+                    "Des professionnels à l'écoute et très compétents"
+                </blockquote>
+                <cite>- Marc L., Client</cite>
+            </div>
+            <div class="testimonial-slide">
+                <blockquote>
+                    "Résultats précis et explications claires"
+                </blockquote>
+                <cite>- Emma S., Patient</cite>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="title">Contactez-nous</h2>
+        <form action="/submit_contact" method="POST">
+            <div>
+                <label for="name">Nom :</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="message">Message :</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit">Envoyer</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>OPTO DZ</h3>
+                <p>Pour toute question, veuillez nous contacter.</p>
+                <ul class="socials">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+                <p>Adresse : 123 Rue de la Vision, Paris, France</p>
+                <p>Téléphone : +33 1 23 45 67 89</p>
+            </div>
+            <div class="about-us">
+                <h4>À Propos de Nous</h4>
+                <p>OPTO DZ est dédié à fournir des soins optométriques de qualité et à améliorer la vision de nos patients grâce à des technologies avancées et un service exceptionnel.</p>
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345092946!2d144.9537353153151!3d-37.81627997975165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11d5c3%3A0x5045675218ceed0!2sOptometry%20Clinic!5e0!3m2!1sen!2sau!4v1616161616161!5m2!1sen!2sau" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Mes discussions</h2>
+    
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    {% if discussions %}
+                        <div class="list-group">
+                        {% for discussion in discussions %}
+                            <a href="{% url 'chat' discussion.id %}" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            {% for participant in discussion.participants.all %}
+                                                {% if participant != request.user %}
+                                                    {{ participant.get_full_name }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </h6>
+                                        {% with last_message=discussion.messages.last %}
+                                            {% if last_message %}
+                                                <small class="text-muted">
+                                                    {{ last_message.content|truncatechars:50 }}
+                                                </small>
+                                                <br>
+                                                <small class="text-muted">
+                                                    {{ last_message.timestamp|date:"d/m/Y H:i" }}
+                                                </small>
+                                            {% endif %}
+                                        {% endwith %}
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">{{ unread_counts|get_item:discussion.id }}</span>
+                                </div>
+                            </a>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-center text-muted">Aucune discussion en cours</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.list-group-item {
+    transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.badge {
+    transition: all 0.2s ease;
+}
+
+.list-group-item:hover .badge {
+    transform: scale(1.1);
+}
+</style>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Créer une ordonnance</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="patient_id">Patient ID</label>
+                <input type="text" name="patient_id" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="doctor-name">Nom du Docteur:</label>
+                <input type="text" id="doctor-name" name="doctor-name" class="form-control" required><br>
+            </div>
+
+
+            <div class="form-group">
+                <label for="specialty">Spécialité:</label>
+                <input type="text" id="specialty" name="specialty" class="form-control" required><br>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Numéro de Téléphone:</label>
+                <input type="tel" id="phone" name="phone" class="form-control" required><br>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required><br>
+            </div>
+
+            <div class="form-group">
+                <label for="patient-profile">Profil du Patient:</label>
+                <input type="text" id="patient-profile" name="patient-profile" class="form-control" required></textarea><br>
+            </div>
+
+            <div class="form-group">
+                <h3>Détails de la Vision</h3>
+                <label for="vision-distance-od">VISION DE LOIN, OD:</label>
+                <input type="text" id="vision-distance-od" name="vision-distance-od" class="form-control" required><br>
+            </div>
+
+            <div class="form-group">
+                <label for="vision-distance-og">VISION DE LOIN, OG:</label>
+                <input type="text" id="vision-distance-og" name="vision-distance-og" class="form-control" required><br>
+            </div>
+
+            <div class="form-group">
+                <label for="vision-near-add">VISION DE PRES, ADD:</label>
+                <input type="text" id="vision-near-add" name="vision-near-add" class="form-control" required><br>
+            </div>
+
+            <button type="submit">Imprimer Ordonnance</button>
+            <button type="submit" class="btn btn-primary">Créer l'ordonnance</button>
+        </form>
+    </div>
+</body>
+{% endblock %}

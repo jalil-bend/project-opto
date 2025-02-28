@@ -1,0 +1,353 @@
+/* ====================================
+   VARIABLES GLOBALES
+   ==================================== */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --accent-color: #17a2b8;
+    --light-bg: #f8f9fa;
+    --dark-bg: #343a40;
+    --transition: all 0.3s ease;
+}
+
+/* ====================================
+   STYLES GÉNÉRAUX
+   ==================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* ====================================
+   HEADER & NAVIGATION
+   ==================================== */
+header {
+    background-color: var(--light-bg);
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.navigation {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navigation a {
+    color: var(--dark-bg);
+    text-decoration: none;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.navigation a:hover {
+    color: var(--primary-color);
+}
+
+/* ====================================
+   HERO SECTION
+   ==================================== */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/static/images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 8rem 0;
+    text-align: center;
+    color: white;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: var(--transition);
+}
+
+.cta-button:hover {
+    background-color: darken(var(--primary-color), 10%);
+    transform: translateY(-2px);
+}
+
+/* ====================================
+   FEATURES SECTION
+   ==================================== */
+.features {
+    padding: 4rem 0;
+    background-color: var(--light-bg);
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: var(--transition);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card i {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+/* ====================================
+   SERVICES SECTION
+   ==================================== */
+.services {
+    padding: 4rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--dark-bg);
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.service-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: var(--transition);
+}
+
+.service-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.service-card h3 {
+    padding: 1rem;
+    margin: 0;
+}
+
+.service-card p {
+    padding: 0 1rem 1rem;
+    margin: 0;
+}
+
+/* ====================================
+   TESTIMONIALS SECTION
+   ==================================== */
+.testimonials {
+    background-color: var(--light-bg);
+    padding: 4rem 0;
+}
+
+.testimonial-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.testimonial-slide {
+    display: none;
+    padding: 2rem;
+}
+
+.testimonial-slide.active {
+    display: block;
+}
+
+blockquote {
+    font-size: 1.25rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+cite {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* ====================================
+   CONTACT SECTION
+   ==================================== */
+.contact {
+    padding: 4rem 0;
+}
+
+.contact form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact form div {
+    margin-bottom: 1.5rem;
+}
+
+.contact label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.contact input,
+.contact textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: var(--transition);
+}
+
+.contact input:focus,
+.contact textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.contact button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.contact button:hover {
+    background-color: darken(var(--primary-color), 10%);
+}
+
+/* ====================================
+   FOOTER
+   ==================================== */
+footer {
+    background-color: var(--dark-bg);
+    color: white;
+    padding: 4rem 0 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.footer-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.socials {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.socials li {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.socials a {
+    color: white;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.socials a:hover {
+    color: var(--primary-color);
+}
+
+.about-us {
+    margin: 2rem 0;
+}
+
+.map-container {
+    margin-top: 2rem;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 300px;
+    border: 0;
+}
+
+/* ====================================
+   RESPONSIVE DESIGN
+   ==================================== */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .navigation {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        text-align: center;
+    }
+}
+
+/* ====================================
+   ANIMATIONS
+   ==================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}

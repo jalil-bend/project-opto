@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        
+        <form method="GET" action="{% url 'manage_users' %}" class="mb-3">
+            <input type="text" name="search" placeholder="Search users..." class="form-control" value="{{ search_query }}" />
+            <button type="submit" class="btn btn-primary mt-2">Search</button>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if users %}
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <a href="{% url 'edit_user' user.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete_user' user.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">Aucun utilisateur trouvé avec ce nom.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-primary">Go to Admin Dashboard</a>
+    </div>
+</body>
+</html>

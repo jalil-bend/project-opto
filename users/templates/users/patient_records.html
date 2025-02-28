@@ -1,0 +1,39 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Mes dossiers médicaux</h2>
+        
+        {% if records %}
+        <div class="row mt-4">
+            {% for record in records %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dossier du {{ record.created_at|date:"d/m/Y" }}</h5>
+                        <p class="card-text">
+                            {% if record.description %}
+                            {{ record.description }}
+                            {% else %}
+                            <em>Aucune description</em>
+                            {% endif %}
+                        </p>
+                        <p class="text-muted">Créé par: Dr. {{ record.created_by.user.username }}</p>
+                        <a href="{{ record.file.url }}" class="btn btn-primary" target="_blank">Voir le document</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info mt-4">
+            Vous n'avez pas encore de dossiers médicaux.
+        </div>
+        {% endif %}
+    </div>
+</body>
+{% endblock %}

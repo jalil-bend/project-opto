@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestion des Dossiers Médicaux{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Variables */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
+            --text-light: #ffffff;
+            --text-dark: #2c3e50;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 2rem;
+        }
+
+        /* Global Styles */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        /* Layout Components */
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header & Navigation */
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            padding: var(--spacing-md) 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-light) !important;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,.9) !important;
+            transition: all 0.3s ease;
+            padding: var(--spacing-sm) var(--spacing-md) !important;
+            border-radius: 5px;
+        }
+
+        .nav-link:hover {
+            color: var(--text-light) !important;
+            background-color: rgba(255,255,255,.1);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            padding: var(--spacing-lg) 0;
+            background-color: var(--light-bg);
+        }
+
+        .content-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,.1);
+        }
+
+        /* Alerts */
+        .alert {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .alert-icon {
+            margin-right: var(--spacing-sm);
+            font-size: 1.1em;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Dropdown Menus */
+        .dropdown-menu {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,.1);
+            padding: var(--spacing-sm) 0;
+        }
+
+        .dropdown-item {
+            padding: var(--spacing-sm) var(--spacing-md);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--light-bg);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            padding: var(--spacing-lg) 0;
+            margin-top: auto;
+        }
+
+        .footer-section {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Utilities */
+        .section-title {
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 600;
+        }
+
+        .icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'dashboard' %}">
+                    <span class="icon-wrapper">
+                        <i class="fas fa-hospital-user"></i>
+                        <span>Dossiers Médicaux</span>
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}">
+                                <span class="icon-wrapper">
+                                    <i class="fas fa-home"></i>
+                                    <span>Accueil</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">
+                                <span class="icon-wrapper">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Tableau de bord</span>
+                                </span>
+                            </a>
+                        </li>
+                        {% if user.is_professional %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'add_patient' %}">
+                                <span class="icon-wrapper">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Ajouter un patient</span>
+                                </span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'patient_records' %}">
+                                <span class="icon-wrapper">
+                                    <i class="fas fa-folder-open"></i>
+                                    <span>Mes dossiers médicaux</span>
+                                </span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% if user.is_authenticated %}
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <span class="icon-wrapper">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>
+                                        {% if user.is_professional %}
+                                            Dr. {{ user.get_full_name }}
+                                        {% else %}
+                                            {{ user.get_full_name }}
+                                        {% endif %}
+                                    </span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'profile' %}">
+                                        <span class="icon-wrapper">
+                                            <i class="fas fa-id-card"></i>
+                                            <span>Mon profil</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">
+                                        <span class="icon-wrapper">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            <span>Déconnexion</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Alerts Section -->
+                {% if messages %}
+                <section class="alerts-section">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            <span class="icon-wrapper">
+                                <i class="fas fa-info-circle alert-icon"></i>
+                                <span>{{ message }}</span>
+                            </span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </section>
+                {% endif %}
+
+                <!-- Content Section -->
+                <section class="content-section">
+                    {% block content %}
+                    {% endblock %}
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 footer-section">
+                        <h5 class="footer-title">À propos</h5>
+                        <p>Un système sécurisé pour la gestion de vos dossiers médicaux, conçu pour faciliter la communication entre patients et professionnels de santé.</p>
+                    </div>
+                    <div class="col-md-4 footer-section">
+                        <h5 class="footer-title">Liens rapides</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'home' %}" class="footer-link">Accueil</a></li>
+                            <li><a href="{% url 'dashboard' %}" class="footer-link">Tableau de bord</a></li>
+                            {% if user.is_professional %}
+                            <li><a href="{% url 'add_patient' %}" class="footer-link">Ajouter un patient</a></li>
+                            {% else %}
+                            <li><a href="{% url 'patient_records' %}" class="footer-link">Mes dossiers médicaux</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="col-md-4 footer-section">
+                        <h5 class="footer-title">Contact</h5>
+                        <p>Pour toute assistance, contactez notre équipe de support.</p>
+                        <p class="mb-0">&copy; {% now "Y" %} Dossiers Médicaux - Tous droits réservés</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

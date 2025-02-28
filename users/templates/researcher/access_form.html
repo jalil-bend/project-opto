@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Accès aux dossiers médicaux</h2>
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="access_code">Code d'accès professionnel :</label>
+            <input type="text" class="form-control" id="access_code" name="access_code" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Accéder</button>
+    </form>
+</div>
+{% endblock %}

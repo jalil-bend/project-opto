@@ -1,0 +1,323 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="discussions">
+        <h2>Discussions</h2>
+        <ul>
+            {% for discussion in discussions %}
+                <li>Discussion {{ discussion.id }} - Non lus: {{ unread_counts|get_item:discussion.id }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="chat-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Discussion avec 
+                {% for participant in discussion.participants.all %}
+                    {% if participant != request.user %}
+                        {{ participant.get_full_name }}
+                    {% endif %}
+                {% endfor %}
+            </h5>
+            <a href="{% url 'discussions_list' %}" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
+        </div>
+    </div>
+    
+    <div class="chat-messages" id="chat-messages">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                <div class="message-content">
+                    {% if message.file %}
+                        {% if message.file.name|lower|endswith:'.pdf' %}
+                            <a href="{{ message.file.url }}" class="btn btn-sm btn-light mb-2" target="_blank">
+                                <i class="fas fa-file-pdf"></i> Voir le PDF
+                            </a>
+                        {% else %}
+                            <img src="{{ message.file.url }}" alt="Image partagée" class="shared-image">
+                        {% endif %}
+                    {% endif %}
+                    {% if message.content %}
+                        <p class="mb-0">{{ message.content }}</p>
+                    {% endif %}
+                </div>
+                <small class="text-muted">
+                    {{ message.sender.get_full_name }} - {{ message.timestamp|date:"H:i" }}
+                </small>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center text-muted py-5">
+                <i class="fas fa-comments fa-3x mb-3"></i>
+                <p>Commencez la conversation en envoyant un message...</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="chat-input">
+        <form id="chat-form" enctype="multipart/form-data">
+            <div class="input-group">
+                <input type="text" id="chat-message-input" class="form-control" placeholder="Écrivez votre message...">
+                <label for="file-upload" class="btn btn-outline-secondary">
+                    <i class="fas fa-paperclip"></i>
+                </label>
+                <input type="file" id="file-upload" accept="image/*,.pdf" style="display: none;">
+                <button type="submit" id="chat-message-submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.chat-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.chat-header {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    border-radius: 12px 12px 0 0;
+}
+
+.chat-messages {
+    height: 500px;
+    overflow-y: auto;
+    padding: 20px;
+    background: #fff;
+}
+
+.message {
+    margin-bottom: 20px;
+    max-width: 75%;
+    clear: both;
+}
+
+.message.sent {
+    float: right;
+}
+
+.message.received {
+    float: left;
+}
+
+.message-content {
+    padding: 12px 16px;
+    border-radius: 15px;
+    background: #f0f2f5;
+    position: relative;
+}
+
+.message.sent .message-content {
+    background: #0084ff;
+    color: white;
+}
+
+.message.received .message-content {
+    background: #f0f2f5;
+}
+
+.shared-image {
+    max-width: 250px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.chat-input {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+    border-radius: 0 0 12px 12px;
+}
+
+#chat-form {
+    margin-bottom: 0;
+}
+
+.input-group {
+    background: white;
+    border-radius: 25px;
+    padding: 5px;
+}
+
+#chat-message-input {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+}
+
+#chat-message-input:focus {
+    box-shadow: none;
+}
+
+.btn-outline-secondary {
+    border: none;
+    padding: 8px 12px;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background: none;
+    color: #0084ff;
+}
+
+#chat-message-submit {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+small {
+    font-size: 0.75rem;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Scrollbar personnalisée */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+</style>
+
+<script>
+    console.log('User ID:', {{ request.user.id }});
+    const discussionId = '{{ discussion.id }}';
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/chat/' + discussionId + '/'
+    );
+
+    chatSocket.onopen = function(e) {
+        console.log('WebSocket connection established');
+        console.log('Connexion WebSocket établie avec succès !');
+    };
+
+    chatSocket.onerror = function(e) {
+        console.error('WebSocket error:', e);
+        console.log('Erreur WebSocket :', e);
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('WebSocket connection closed unexpectedly');
+        console.log('Code de fermeture:', e.code);
+        console.log('Raison de fermeture:', e.reason);
+    };
+
+    const messageInput = document.getElementById('chat-message-input');
+    const messageSubmit = document.getElementById('chat-message-submit');
+    const messagesContainer = document.getElementById('chat-messages');
+    const fileUpload = document.getElementById('file-upload');
+
+    // Scroll to bottom on load
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        console.log('Message received:', data);
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.classList.add(data.sender_id == {{ request.user.id }} ? 'sent' : 'received');
+        
+        messageElement.innerHTML = `
+            <div class="message-content">
+                <p class="mb-0">${data.message}</p>
+            </div>
+            <small class="text-muted">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>
+        `;
+        
+        messagesContainer.appendChild(messageElement);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    };
+
+    document.querySelector('#chat-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value;
+        if (message.trim()) {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'sender_id': {{ request.user.id }}
+            }));
+            messageInput.value = '';
+        }
+    });
+
+    fileUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('discussion_id', discussionId);
+            
+            fetch('/chat/upload/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const fileType = file.type.startsWith('image/') ? 'une image' : 'un document';
+                    chatSocket.send(JSON.stringify({
+                        'message': `A partagé ${fileType}: ${file.name}`,
+                        'sender_id': {{ request.user.id }}
+                    }));
+                }
+            });
+        }
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Focus input on load
+    messageInput.focus();
+
+    // Enter to send message
+    messageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            messageSubmit.click();
+        }
+    });
+</script>
+{% endblock %}

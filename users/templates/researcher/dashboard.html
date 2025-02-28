@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord des chercheurs</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/researcher_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Tableau de bord des chercheurs</h1>
+        <p>Bienvenue sur votre tableau de bord. Vous pouvez gérer vos projets et accéder aux données de recherche ici.</p>
+        <form method="post" action="{% url 'view_patient_records' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="license_number">Numéro de Licence :</label>
+                <input type="text" id="license_number" name="license_number" required>
+            </div>
+            <div class="form-group">
+                <label for="access_code">Code d'Accès :</label>
+                <input type="text" id="access_code" name="access_code" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Accéder aux Dossiers</button>
+        </form>
+        <a href="#" class="button">Consulter les données</a>
+    </div>
+</body>
+</html>

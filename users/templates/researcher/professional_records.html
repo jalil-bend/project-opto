@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiers Médicaux</title>
+    <link rel="stylesheet" href="{% static 'css/researcher_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Dossiers Médicaux</h2>
+        <p>Voici les dossiers médicaux associés à ce professionnel.</p>
+        {% if records %}
+        <div class="row mt-4">
+            {% for record in records %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dossier du {{ record.created_at|date:"d/m/Y" }}</h5>
+                        <p class="card-text">
+                            {% if record.description %}
+                            {{ record.description }}
+                            {% else %}
+                            Aucune description disponible.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>Aucun dossier médical trouvé.</p>
+        {% endif %}
+    </div>
+    <form method="post" action="{% url 'view_patient_records' %}">
+      {% csrf_token %}
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="access_code" 
+               placeholder="Code d'accès professionnel" required>
+        <button class="btn btn-primary" type="submit">
+          <i class="fas fa-search"></i> Rechercher
+        </button>
+      </div>
+    </form>
+</body>
+</html>

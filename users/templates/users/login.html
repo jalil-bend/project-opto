@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Gestion des Dossiers Médicaux</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --background-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --light-text: #ffffff;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 2rem auto;
+        }
+
+        .login-header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .login-header h3 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .login-header .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .input-group-text {
+            background-color: transparent;
+            border: 2px solid #e9ecef;
+            border-right: none;
+        }
+
+        .password-toggle {
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e9ecef;
+            border-left: none;
+            background-color: transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-home {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            border: none;
+            margin-top: 1rem;
+        }
+
+        .btn-home:hover {
+            background-color: #34495e;
+        }
+
+        .form-check {
+            margin-top: 1.5rem;
+        }
+
+        .form-check-input {
+            border-color: var(--secondary-color);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .alert {
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 1rem;
+        }
+
+        .terms-text a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        .invalid-feedback {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 576px) {
+            .login-container {
+                margin: 1rem;
+            }
+            
+            .login-header {
+                padding: 1.5rem;
+            }
+            
+            .login-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="login-container">
+                    <div class="login-header">
+                        <i class="fas fa-hospital-user icon"></i>
+                        <h3>Connexion</h3>
+                        <p class="mb-0">Accédez à votre espace personnel</p>
+                    </div>
+                    <div class="login-body">
+                        <form method="POST" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            
+                            <!-- Nom d'utilisateur -->
+                            <div class="mb-4">
+                                <label for="id_username" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Nom d'utilisateur
+                                </label>
+                                <div class="input-group">
+                                    <input type="username" 
+                                           name="username"
+                                           id="id_username"
+                                           class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                                           placeholder="Entrez votre nom d'utilisateur"
+                                           required
+                                           autofocus>
+                                </div>
+                                {% if form.username.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.username.errors|join:", " }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Mot de passe -->
+                            <div class="mb-4">
+                                <label for="id_password" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Mot de passe
+                                </label>
+                                <div class="input-group">
+                                    <input type="password" 
+                                           name="password"
+                                           id="id_password"
+                                           class="form-control {% if form.password.errors %}is-invalid{% endif %}"
+                                           placeholder="Entrez votre mot de passe"
+                                           required>
+                                    <button class="password-toggle" type="button" onclick="togglePassword()">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                </div>
+                                {% if form.password.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.password.errors|join:", " }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <!-- Bouton de connexion -->
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                            </button>
+
+                            <!-- Termes et conditions -->
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="consentCheck" required>
+                                <label class="form-check-label" for="consentCheck">
+                                    J'accepte les termes et conditions
+                                </label>
+                                <p class="terms-text">
+                                    Veuillez lire notre <a href="{% url 'terms-and-conditions' %}" target="_blank">système de travail</a> 
+                                    pour comprendre comment nous traitons vos données et garantissons votre confidentialité.
+                                </p>
+                            </div>
+
+                            <!-- Bouton Accueil -->
+                            <a class="btn btn-primary btn-home w-100" href="{% url 'home' %}">
+                                <i class="fas fa-home me-2"></i>Accueil
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('id_password');
+            const toggleButton = document.querySelector('.password-toggle i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.classList.remove('fa-eye');
+                toggleButton.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.classList.remove('fa-eye-slash');
+                toggleButton.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

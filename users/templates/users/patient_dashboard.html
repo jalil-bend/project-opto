@@ -1,0 +1,154 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Informations du patient -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Mon code d'accès</h5>
+                    <p class="card-text">Code d'accès : <strong>{{ patient.access_code }}</strong></p>
+                    <p class="text-muted small">Partagez ce code avec votre professionnel de santé pour qu'il puisse accéder à vos dossiers.</p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Actions rapides</h5>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'patient_records' %}" class="btn btn-primary">
+                            <i class="fas fa-folder-open"></i> Mes dossiers médicaux
+                        </a>
+                        <a href="{% url 'discussions_list' %}" class="btn btn-info text-white">
+                            <i class="fas fa-comments"></i> Mes messages
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste des professionnels -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Mes professionnels de santé</h5>
+                    {% if professionals %}
+                        <div class="list-group">
+                        {% for professional in professionals %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Dr. {{ professional.user.get_full_name }}</h6>
+                                        <small class="text-muted">{{ professional.speciality }}</small>
+                                    </div>
+                                    <a href="{% url 'create_discussion' professional.user.id %}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-comments"></i> Discuter
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Aucun professionnel de santé n'a encore accès à votre dossier.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Derniers dossiers médicaux -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Derniers dossiers médicaux</h5>
+                    {% if medical_records %}
+                        <div class="list-group">
+                            {% for record in medical_records|slice:":5" %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ record.created_at|date:"d/m/Y" }}</h6>
+                                    <small class="text-muted">
+                                        {% if record.created_by %}
+                                            Par Dr. {{ record.created_by.user.get_full_name }}
+                                        {% endif %}
+                                    </small>
+                                </div>
+                                {% if record.description %}
+                                    <p class="mb-1 small">{{ record.description|truncatechars:100 }}</p>
+                                {% endif %}
+                                {% if record.file %}
+                                    <a href="{{ record.file.url }}" class="btn btn-sm btn-outline-primary mt-2" target="_blank">
+                                        <i class="fas fa-file"></i> Voir le document
+                                    </a>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if medical_records.count > 5 %}
+                            <div class="text-center mt-3">
+                                <a href="{% url 'patient_records' %}" class="btn btn-outline-primary">
+                                    Voir tous les dossiers
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-muted">Aucun dossier médical pour le moment.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.card-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.list-group-item {
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.btn-primary {
+    background-color: #3498db;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-info {
+    background-color: #2ecc71;
+    border: none;
+}
+
+.btn-info:hover {
+    background-color: #27ae60;
+}
+
+.text-muted {
+    color: #7f8c8d !important;
+}
+
+.small {
+    font-size: 0.875rem;
+}
+</style>
+{% endblock %}

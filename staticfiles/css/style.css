@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    font-family: "Poppins", serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+header{
+    background-color: #a8cdf7;
+    width: 100%;
+    position: fixed;
+    z-index: 999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+}
+
+.logo{
+    text-decoration: none;
+    color: #1a44eb;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.8em;
+}
+
+.navigation a {
+    color: #1a44eb;
+    text-decoration: none ;
+    font-weight: 500;
+    font-size: 1.1em;
+    padding-left: 30px;
+    position: relative;
+}
+.navigation a:hover {
+    color: #9c0e0e;
+}
+.navigation a::after{
+    content: '';
+    position: absolute;
+    left: 65%;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background-color: #fff; 
+    border-radius: 5px;
+    transform: translateX(-50%) scaleX(0);
+    transition: transform 0.5s ease;
+}
+
+.navigation a:hover::after{
+    transform: translateX(-50%) scaleX(1);
+} 
+
+.navigation .se-connecter-btn{
+    width: 130px;
+    height: 40px;
+    background-color: transparent;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #1a44eb;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: 0.7s ease;
+}
+.navigation .se-connecter-btn:hover{
+    background-color: #fff;
+    color: #9c0e0e;
+}
+section{
+    padding: 100px ;
+}
+.main{
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    background: url(static/images/background\ R.gif.mp4);
+    background-size: cover;
+    background-position: center;
+}
+
+.main h2{
+    color:#fff;
+    font-weight: 500;
+    font-size: 1.4em;
+}
+.main h2 span{
+    display: inline-block;
+    color: #1a44eb;
+    font-size: 3em;
+    font-weight:500 ;
+}
+.main p{
+    color: white;
+    font-weight: 400;
+    font-size: 2em;
+    padding: 10px 20px;
+    margin: 10px;
+    letter-spacing: 1px;
+}
+.main-btn{
+    color: #fff;
+    background-color: #1a44eb;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 600;
+    display: inline-block;
+    padding: 0.9375em 2.1875em;
+    letter-spacing: 1px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    margin-left: 430px;
+    transition: 0.7s ease;
+}
+.main-btn:hover{
+background-color: #1a44eb;
+transform: scale(1.1);
+}
+
+.social-icons a{
+    color: #fff;
+    font-size: 1.7em;
+    padding-right: 25px;
+    margin: 0px 10px;
+}
+.social-icons .youtube{
+    color: #CD201F;
+}
+.social-icons .facebook{
+    color: #1877F2;
+}
+.social-icons .instagram{
+    color: #E4405F;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    color: #1a44eb;
+    font-size: 2.2em;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.contenu{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.card{
+    background-color: #fff;
+    width: 21.25em;
+    box-shadow: 0 5px 25px rgba(1 1 1/ 15%);
+    border-radius: 10px;
+    padding: 25px;
+    margin: 15px;
+}
+.card:hover{
+   transform: scale(1.1);
+    transition: 0.7s ease;
+}
+.icon{
+    color: #1a44eb;
+    font-size: 8em;
+    text-align: center;
+}
+.info{
+    text-align: center;
+}
+.info h3{
+    color: #1a44eb;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin: 10px;
+}
+.info p{
+    font-size: 1.1em;
+    font-weight: 450;
+    letter-spacing: 0.3px;
+}
+.tutoriel{
+    background-color: #000016;
+
+}
+.tutoriel .contenu{
+    margin-top: 30px;
+
+}
+.tutoriel-card{
+    background-color: #fff;
+    border: 1px solid #fff;
+    min-height: 14em;
+    width: 23em;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 20px;
+    transition: 0.7s ease;
+}
+.tutoriel-card:hover{
+    transform: scale(1.1);
+}
+.tutoriel-card:hover .tutoriel-image{
+    opacity: 0.9;
+}
+.tutoriel-image img{
+    width: 100%;
+}
+.tutoriel-info{
+    padding: 1em;
+}
+.tutoriel-categorie{
+    font-size: 0.8em;
+    font-weight: 490;
+    color: #000;
+}
+.tutoriel-title{
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 10px;
+}
+.more-details{
+    text-decoration: none;
+    color: #1a44eb;
+}
+.more-details:hover{
+    color: #9c0e0e;
+}
+
+.contact .icon{
+    font-size: 4.5em;
+}
+.contact .info h3{
+    color: #000;
+}
+.contact .info p{
+    font-size: 1.5em;
+}
+
+.footer{
+    background-color: #000016;
+    color: #fff;
+    padding: 2em;
+    display: flex;
+    justify-content: space-between;
+}
+.website-copyright{
+    font-size: 1.3em;
+    font-weight: 600;
+}
+.website-copyright span{
+    color: #1a44eb;
+}
+.probleme{
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.3em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+@media (max-width:1022px){
+    header{
+        padding: 12px 0px;
+    }
+    .navigation a{
+        padding-left: 10px;
+    }
+    .title{
+        font-size: 1.8em;
+    }
+    .section{
+        padding: 80px;
+        padding-right: 20px;
+    }
+    .main-contenu h2{
+        font-size: 1em;
+    }
+    .main-contenu h3{
+        font-size: 1.6em;
+    }
+    .contenu{
+        flex-direction: column;
+        align-items: center;
+    }
+    
+        
+    
+}
+
+
+

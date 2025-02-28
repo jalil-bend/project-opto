@@ -1,0 +1,196 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Ajouter un dossier médical pour {{ patient.user.username }}</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Images Topographie</label>
+                    <div class="d-flex align-items-center mb-2">
+                        <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('topographie-input').click()">
+                            + Ajouter une image
+                        </button>
+                        <input type="file" id="topographie-input" style="display: none;" accept="image/*">
+                    </div>
+                    <div id="topographie-container"></div>
+                    <div class="image-preview mt-2" id="topographie-preview"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Images OCT</label>
+                    <div class="d-flex align-items-center mb-2">
+                        <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('oct-input').click()">
+                            + Ajouter une image
+                        </button>
+                        <input type="file" id="oct-input" style="display: none;" accept="image/*">
+                    </div>
+                    <div id="oct-container"></div>
+                    <div class="image-preview mt-2" id="oct-preview"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Images Lampe à fente</label>
+                    <div class="d-flex align-items-center mb-2">
+                        <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('lampe-input').click()">
+                            + Ajouter une image
+                        </button>
+                        <input type="file" id="lampe-input" style="display: none;" accept="image/*">
+                    </div>
+                    <div id="lampe-container"></div>
+                    <div class="image-preview mt-2" id="lampe-preview"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Calcul IOL</label>
+                    <div class="d-flex align-items-center mb-2">
+                        <a href="https://www.myalcon-toriccalc.com/#/calculator" target="_blank" class="btn btn-outline-primary">
+                            Calcul IOL
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Autres documents</label>
+                    <input type="file" class="form-control" name="file">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 50px;
+}
+
+.preview-item {
+    position: relative;
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+.preview-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.preview-item .file-name {
+    font-size: 0.8em;
+    word-break: break-all;
+    margin-top: 5px;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.remove-btn:hover {
+    background: rgba(255, 0, 0, 0.9);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageTypes = ['topographie', 'oct', 'lampe'];
+    const selectedFiles = {
+        topographie: [],
+        oct: [],
+        lampe: []
+    };
+
+    function createFileInput(type, index) {
+        return `<input type="file" name="${type}[]" style="display: none;">`;
+    }
+
+    function handleFileSelect(event, type) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Créer un nouvel input file caché
+            const container = document.getElementById(`${type}-container`);
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.name = `${type}[]`;
+            input.style.display = 'none';
+            container.appendChild(input);
+
+            // Créer la prévisualisation
+            const preview = document.getElementById(`${type}-preview`);
+            const div = document.createElement('div');
+            div.className = 'preview-item';
+            div.innerHTML = `
+                <img src="${e.target.result}" alt="Preview">
+                <div class="file-name">${file.name}</div>
+                <button type="button" class="remove-btn">×</button>
+            `;
+
+            // Ajouter le fichier à l'input
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            input.files = dataTransfer.files;
+
+            // Gérer la suppression
+            div.querySelector('.remove-btn').onclick = function() {
+                div.remove();
+                input.remove();
+            };
+
+            preview.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+
+        // Réinitialiser l'input pour permettre la sélection du même fichier
+        event.target.value = '';
+    }
+
+    // Configurer les écouteurs d'événements pour chaque type d'image
+    imageTypes.forEach(type => {
+        const input = document.getElementById(`${type}-input`);
+        input.addEventListener('change', (e) => handleFileSelect(e, type));
+    });
+
+    // Validation du formulaire
+    document.getElementById('uploadForm').onsubmit = function(e) {
+        const hasFiles = imageTypes.some(type => {
+            return document.querySelectorAll(`input[name="${type}[]"]`).length > 0;
+        }) || document.querySelector('input[name="file"]').files.length > 0;
+
+        if (!hasFiles) {
+            e.preventDefault();
+            alert('Veuillez sélectionner au moins une image ou un document.');
+            return false;
+        }
+        return true;
+    };
+});
+</script>
+{% endblock %}

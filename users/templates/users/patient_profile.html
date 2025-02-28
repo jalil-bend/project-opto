@@ -1,0 +1,66 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="new_style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Profil du Patient</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Nom d'utilisateur:</strong></div>
+                            <div class="col-sm-8">{{ patient.user.username }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Email:</strong></div>
+                            <div class="col-sm-8">{{ patient.user.email }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Date de naissance:</strong></div>
+                            <div class="col-sm-8">
+                                {% if patient.date_of_birth %}
+                                    {{ patient.date_of_birth|date:"d/m/Y" }}
+                                {% else %}
+                                    <em>Non renseigné</em>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Sexe:</strong></div>
+                            <div class="col-sm-8">
+                                {% if patient.gender %}
+                                    {{ patient.get_gender_display }}
+                                {% else %}
+                                    <em>Non renseigné</em>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Date d'inscription:</strong></div>
+                            <div class="col-sm-8">{{ patient.registration_date|date:"d/m/Y" }}</div>
+                        </div>
+                        
+                        {% if user.is_professional %}
+                        <div class="mt-4">
+                            <a href="{% url 'view_records' patient.id %}" class="btn btn-primary">
+                                <i class="fas fa-folder-open"></i> Voir les dossiers médicaux
+                            </a>
+                            <a href="{% url 'upload_record_for_patient' patient.id %}" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Ajouter un dossier
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

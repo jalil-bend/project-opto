@@ -1,0 +1,79 @@
+{% extends "users/base.html" %}
+
+{% block extra_head %}
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<style>
+    @media print {
+        .no-print {
+            display: none;
+        }
+        .print-only {
+            display: block;
+        }
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+    }
+    .credentials-box {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .print-only {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Ordonnance</h2>
+
+                    <div class="no-print">
+                        <button id="add-prescription" class="btn btn-success mb-3">Ajouter Ordonnance</button>
+                        <form id="prescription-form">
+                            <label for="doctor-name">Nom du Docteur:</label>
+                            <input type="text" id="doctor-name" name="doctor-name" required><br>
+
+                            <label for="specialty">Spécialité:</label>
+                            <input type="text" id="specialty" name="specialty" required><br>
+
+                            <label for="phone">Numéro de Téléphone:</label>
+                            <input type="tel" id="phone" name="phone" required><br>
+
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required><br>
+
+                            <label for="patient-profile">Profil du Patient:</label>
+                            <textarea id="patient-profile" name="patient-profile" required></textarea><br>
+
+                            <h3>Détails de la Vision</h3>
+                            <label for="vision-distance-od">VISION DE LOIN, OD:</label>
+                            <input type="text" id="vision-distance-od" name="vision-distance-od"><br>
+
+                            <label for="vision-distance-og">VISION DE LOIN, OG:</label>
+                            <input type="text" id="vision-distance-og" name="vision-distance-og"><br>
+
+                            <label for="vision-near-add">VISION DE PRES, ADD:</label>
+                            <input type="text" id="vision-near-add" name="vision-near-add"><br>
+
+                            <button type="submit">Imprimer Ordonnance</button>
+                        </form>
+                    </div>
+
+                    <div class="print-only text-center mt-4">
+                        <p class="text-muted">Document généré le {{ generated_date|date:"d/m/Y" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

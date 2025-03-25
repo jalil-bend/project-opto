@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*','optodz-4ic0.onrender.com']
 
+CSRF_TRUSTED_ORIGINS = ['https://optodz-4ic0.onrender.com']
 
 # Application definition
 
